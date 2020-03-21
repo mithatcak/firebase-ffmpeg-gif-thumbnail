@@ -4,7 +4,6 @@ const functions = require('firebase-functions');
 const mkdirp = require('mkdirp');
 const admin = require('firebase-admin');
 admin.initializeApp();
-const spawn = require('child-process-promise').spawn;
 const path = require('path');
 const os = require('os');
 const fs = require('fs');
@@ -22,15 +21,15 @@ function promisifyCommand(command) {
 }
 
 /**
- * When an image is uploaded in the Storage bucket We generate a thumbnail automatically using
- * ImageMagick.
+ * When an mp4 video is uploaded in the Storage bucket We generate a gif thumbnail automatically using
+ * ffmpeg.
  * After the thumbnail has been generated and uploaded to Cloud Storage,
  * we write the public URL to the Firebase Realtime Database.
  */
 exports.generateThumbnail = functions.storage.object().onFinalize(async (object) => {
   // File and directory paths.
   const filePath = object.name;
-  const contentType = object.contentType; // This is the image MIME type
+  const contentType = object.contentType; // This is the video MIME type
   const fileDir = path.dirname(filePath);
   const fileName = path.basename(filePath);
   const fileNameNoExtension = path.parse(fileName).name;
@@ -40,7 +39,7 @@ exports.generateThumbnail = functions.storage.object().onFinalize(async (object)
   const tempLocalDir = path.dirname(tempLocalFile);
   const tempLocalThumbFile = path.join(os.tmpdir(), thumbFilePath);
 
-  // Exit if this is triggered on a file that is not an image.
+  // Exit if this is triggered on a file that is not an mp4 video.
   if (!contentType.startsWith('video/mp4')) {
     return console.log('This is not an mp4 video.');
   }
