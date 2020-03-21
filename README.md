@@ -1,12 +1,10 @@
 # Automatically create gif thumbnail from mp4 using ffmpeg
 
-This sample uses ffmpeg / fluent-ffmpeg and automatically creates gif thumbnails from mp4 files that are uploaded to Cloud Storage
+This firebase function uses ffmpeg / fluent-ffmpeg and automatically creates gif thumbnails from mp4 files that are uploaded to Cloud Storage
 
 ## Functions Code
 
 See file [functions/index.js](functions/index.js) for the gif conversion code.
-
-The audio conversion is performed using ffmpeg. The audio is first downloaded locally from the Cloud Storage bucket to the `tmp` folder using the [google-cloud](https://github.com/GoogleCloudPlatform/google-cloud-node) SDK.
 
 The dependencies are listed in [functions/package.json](functions/package.json).
 
