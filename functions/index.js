@@ -66,8 +66,11 @@ exports.generateThumbnail = functions.storage.object().onFinalize(async (object)
   console.log('The file has been downloaded to', tempLocalFile);
   
   // Generate a gif using ffmpeg.
+  // Use first 2 seconds of the video
+  // Frame rate is 5
   var cmd =  ffmpeg(tempLocalFile)
   .setFfmpegPath(ffmpeg_static)
+  .addInputOption("-t 2")
   .outputOption("-vf", "scale=240:-1:flags=lanczos,fps=5")
   .on('error', err => {
     console.error(err);
