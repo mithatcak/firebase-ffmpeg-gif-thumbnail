@@ -71,7 +71,7 @@ exports.generateThumbnail = functions.storage.object().onFinalize(async (object)
   var cmd =  ffmpeg(tempLocalFile)
   .setFfmpegPath(ffmpeg_static)
   .addInputOption("-t 2")
-  .outputOption("-vf", "scale=240:-1:flags=lanczos,fps=5")
+  .outputOption("-vf", "scale=240:-2:flags=lanczos,fps=5", "-t", "00:00:01")
   .on('error', err => {
     console.error(err);
   })
